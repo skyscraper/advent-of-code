@@ -19,8 +19,6 @@
 (defn d1-2 [ms]
   (reduce #(+ %1 (fuel-rec %2)) 0 ms))
 
-;;;
-
 (defn d2-in []
   (vec (map #(Long. %) (split (trim (slurp "resources/day2.txt")) #","))))
 
@@ -90,3 +88,20 @@
         q1s (select-keys p1s (keys p2s))
         q2s (select-keys p2s (keys p1s))]
     (first (sort (vals (merge-with + q1s q2s))))))
+
+(defn d4-in []
+  (map #(Long. %) (split (trim (slurp "resources/day4.txt")) #"-")))
+
+(defn d4-1 [[x y]]
+  (->> (range x (inc y))
+       (map str)
+       (filter #(= % (apply str (sort %))))
+       (filter #(< (count (set %)) (count %)))
+       count))
+
+(defn d4-2 [[x y]]
+  (->> (range x (inc y))
+       (map str)
+       (filter #(= % (apply str (sort %))))
+       (filter #(some #{2} (vals (frequencies %))))
+       count))
